@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../modules/pool');
 const router = express.Router();
 const {
-    rejectUnauthenticated,
+  rejectUnauthenticated,
 } = require('../modules/authentication-middleware');
 const encryptLib = require('../modules/encryption');
 const userStrategy = require('../strategies/user.strategy');
@@ -12,7 +12,14 @@ const userStrategy = require('../strategies/user.strategy');
  */
 router.get('/', (req, res) => {
   // GET route code here
-
+  console.log( 'api/inventory GET hit' );
+  let queryString = `SELECT * FROM "items"`;
+  pool.query( queryString ).then( ( results )=>{
+    res.send( results.rows );
+  }).catch( ( err )=>{
+    console.log( err );
+    res.send( 500 );
+  })
 });
 
 /**
